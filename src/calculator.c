@@ -87,6 +87,7 @@ bool calculator_add_operation(calculator_t calculator, char operator, operation_
         calculator->operations = operation;
         return true;
     }
+    return false;
 }
 
 int calculator_calculate(calculator_t calculator, const char *expression) {

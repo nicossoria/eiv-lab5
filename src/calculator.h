@@ -21,7 +21,7 @@ SPDX-License-Identifier: MIT
 #define CALCULATOR_H_
 
 /** @file calculator.h
- ** @brief Plantilla para la creación de archivos de de cabeceras en lenguaje C
+ ** @brief 
  **/
 
 /* === Headers files inclusions ==================================================================================== */

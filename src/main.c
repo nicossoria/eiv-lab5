@@ -18,7 +18,7 @@ SPDX-License-Identifier: MIT
 *********************************************************************************************************************/
 
 /** @file main.c
- ** @brief Plantilla para la creación de archivos de código fuente en lenguaje C
+ ** @brief Main file para una calculadora simple
  **/
 
 /* === Headers files inclusions ==================================================================================== */
@@ -40,17 +40,17 @@ SPDX-License-Identifier: MIT
 
 /* === Public function implementation ============================================================================== */
 
-int main(void){
+int main(void) {
     static const char suma[] = "2+3";
     static const char producto[] = "2*3";
     static const char resta[] = "3-2";
     static const char division[] = "6/3";
 
-
     calculator_t calculator = calculator_create();
     calculator_add_operation(calculator, '+', operation_add);
     calculator_add_operation(calculator, '*', operation_multiply);
     calculator_add_operation(calculator, '-', operation_subtract);
+    calculator_add_operation(calculator, '/', operation_divide);
 
     printf("%s= %d\n", suma, calculator_calculate(calculator, suma));
     printf("%s= %d\n", producto, calculator_calculate(calculator, producto));
