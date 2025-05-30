@@ -30,3 +30,5 @@ info:
 
 doc:
 	@doxygen Doxyfile
+run: all
+	@$(BIN_DIR)/app.out

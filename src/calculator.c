@@ -93,24 +93,26 @@ int calculator_calculate(calculator_t calculator, const char *expression) {
     int a=0, b=0;
     char operator=0;
     int result = 0;
-    
+    char *endptr = NULL;
+
     if (!calculator || !expression) {
         return 0; // Error: calculadora o expresión nula
     }
-    for(int i = 0;i<strlen(expression);i++){
-        if (expression[i] < '0' || expression[i]> '9') {
-            operator = expression[i];
-            a = strtol(expression, NULL, 10);
-            b = strtol (expression + i + 1, NULL, 10);
-            break;
-        }
+
+    a = (int) strtol(expression, &endptr, 10); // Aquí endptr apunta al operador
+    operator = *endptr;
+    if (operator == 0) {
+        return 0; // No hay operador
     }
+    b = (int) strtol(endptr + 1, NULL, 10); // Segundo número
+
     operation_t operation = FindOperation(calculator, operator);
     if (operation) {
         result = operation->func(a, b);
     }
     return result;
 }
+
 int operation_add(int a, int b) {
     return a + b;
 }
