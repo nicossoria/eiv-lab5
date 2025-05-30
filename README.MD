@@ -1,3 +1,5 @@
-# Electronica IV - Laboratorio 2 - Laboratorio 5
+# Electronica IV - Laboratorio 5
 
 Alumno: Martin Nicolas Soria
+
+## Calculadora abstracta

@@ -21,7 +21,7 @@ SPDX-License-Identifier: MIT
 #define CALCULATOR_H_
 
 /** @file calculator.h
- ** @brief 
+ ** @brief Declaraciones para la calculadora
  **/
 
 /* === Headers files inclusions ==================================================================================== */
@@ -42,23 +42,40 @@ extern "C" {
 /*Tipo de datos para el objeto calculadora */
 typedef struct calculator_s *calculator_t;
 
+/* Tipo de datos para las operaciones */
 typedef int (*operation_func_t)(int, int);
 
 /* === Public variable declarations ================================================================================ */
 
 /* === Public function declarations ================================================================================ */
 
+/**
+ * @brief Crea una nueva calculadora.
+ *
+ * @return Un puntero a la nueva calculadora o NULL si falla.
+ */
 calculator_t calculator_create(void);
 
+
+/**
+ * @brief Agrega una operación a la calculadora.
+ *
+ * @param calculator Calculadora donde buscar la operación.
+ * @param operator Operador de la operación a buscar.
+ * @return Puntero a la operación encontrada o NULL si no se encuentra.
+ */
 bool calculator_add_operation(calculator_t calculator, char operator, operation_func_t func);
 
 
-int calculator_calculate(calculator_t calculator, const char *expression);
 
-int operation_add(int a, int b);
-int operation_subtract(int a, int b);
-int operation_multiply(int a, int b);
-int operation_divide(int a, int b);
+/**
+ * @brief Busca una operación en la calculadora por su operador.
+ *
+ * @param calculator Calculadora donde buscar la operación.
+ * @param operator Operador de la operación a buscar.
+ * @return Puntero a la operación encontrada o NULL si no se encuentra.
+ */
+int calculator_calculate(calculator_t calculator, const char *expression);
 
 /**
  * @brief Libera la memoria asignada a la calculadora y sus operaciones.
@@ -66,6 +83,42 @@ int operation_divide(int a, int b);
  * @param calculator Calculadora a destruir.
  */
 void calculator_destroy(calculator_t calculator);
+
+/**
+ * @brief Realiza una operación de suma.
+ *
+ * @param a Primer operando.
+ * @param b Segundo operando.
+ * @return Resultado de la suma.
+ */
+int operation_add(int a, int b);
+
+/**
+ * @brief Realiza una operación de resta.
+ *
+ * @param a Primer operando.
+ * @param b Segundo operando.
+ * @return Resultado de la resta.
+ */
+int operation_subtract(int a, int b);
+
+/**
+ * @brief Realiza una operación de la multiplicacion.
+ *
+ * @param a Primer operando.
+ * @param b Segundo operando.
+ * @return Resultado de la multiplicacion.
+ */
+int operation_multiply(int a, int b);
+
+/**
+ * @brief Realiza una operación de la division.
+ *
+ * @param a Primer operando.
+ * @param b Segundo operando.
+ * @return Resultado de la division.
+ */
+int operation_divide(int a, int b);
 
 
 /* === End of conditional blocks =================================================================================== */

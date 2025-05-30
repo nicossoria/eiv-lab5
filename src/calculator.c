@@ -18,7 +18,7 @@ SPDX-License-Identifier: MIT
 *********************************************************************************************************************/
 
 /** @file calculator.c
- ** @brief calculator para la creación de archivos de código fuente en lenguaje C
+ ** @brief Code para la implementación de una calculadora simple
  **/
 
 /* === Headers files inclusions ==================================================================================== */
@@ -34,6 +34,8 @@ SPDX-License-Identifier: MIT
 #endif
 /* === Private data type declarations ============================================================================== */
 
+
+/* Tipo de datos para las operaciones */
 typedef struct operation_s *operation_t;
 struct operation_s {
     char operator;
@@ -41,12 +43,20 @@ struct operation_s {
     operation_t next;
 };
 
+/* Tipo de datos para la calculadora */
 struct calculator_s {
     operation_t operations;
 };
 
 /* === Private function declarations =============================================================================== */
 
+/**
+ * @brief Busca una operación en la calculadora por su operador.
+ *
+ * @param calculator Calculadora donde buscar la operación.
+ * @param operator Operador de la operación a buscar.
+ * @return Puntero a la operación encontrada o NULL si no se encuentra.
+ */
 static operation_t FindOperation(calculator_t calculator, char operator);
 
 /* === Private variable definitions ================================================================================ */
@@ -55,6 +65,14 @@ static operation_t FindOperation(calculator_t calculator, char operator);
 
 /* === Private function definitions ================================================================================ */
 
+
+/**
+ * @brief Busca una operación en la calculadora por su operador.
+ *
+ * @param calculator Calculadora donde buscar la operación.
+ * @param operator Operador de la operación a buscar.
+ * @return Puntero a la operación encontrada o NULL si no se encuentra.
+ */
 static operation_t FindOperation(calculator_t calculator, char operator) {
     operation_t current = calculator->operations;
     while (current != NULL) {
@@ -68,6 +86,12 @@ static operation_t FindOperation(calculator_t calculator, char operator) {
 
 /* === Public function implementation ============================================================================== */
 
+
+/**
+ * @brief Crea una nueva calculadora.
+ *
+ * @return Un puntero a la nueva calculadora o NULL si falla.
+ */
 calculator_t calculator_create(void){
     calculator_t self = malloc(sizeof(struct calculator_s));
     if (self) {
@@ -75,9 +99,17 @@ calculator_t calculator_create(void){
     }
     return self;
 }
+
+/**
+ * @brief Agrega una operación a la calculadora.
+ *
+ * @param calculator Calculadora donde buscar la operación.
+ * @param operator Operador de la operación a buscar.
+ * @return Puntero a la operación encontrada o NULL si no se encuentra.
+ */
 bool calculator_add_operation(calculator_t calculator, char operator, operation_func_t func) {
     if (!calculator||!func||FindOperation(calculator, operator)) {
-        return false; // Ya existe una operación con este operador o el puntero a función es nulo
+        return false;
     }
     operation_t operation = malloc(sizeof(struct operation_s));
     if (operation) {
@@ -90,6 +122,14 @@ bool calculator_add_operation(calculator_t calculator, char operator, operation_
     return false;
 }
 
+
+/**
+ * @brief Busca una operación en la calculadora por su operador.
+ *
+ * @param calculator Calculadora donde buscar la operación.
+ * @param operator Operador de la operación a buscar.
+ * @return Puntero a la operación encontrada o NULL si no se encuentra.
+ */
 int calculator_calculate(calculator_t calculator, const char *expression) {
     int a=0, b=0;
     char operator=0;
@@ -97,15 +137,15 @@ int calculator_calculate(calculator_t calculator, const char *expression) {
     char *endptr = NULL;
 
     if (!calculator || !expression) {
-        return 0; // Error: calculadora o expresión nula
+        return 0;
     }
 
-    a = (int) strtol(expression, &endptr, 10); // Aquí endptr apunta al operador
+    a = (int) strtol(expression, &endptr, 10);
     operator = *endptr;
     if (operator == 0) {
-        return 0; // No hay operador
+        return 0; 
     }
-    b = (int) strtol(endptr + 1, NULL, 10); // Segundo número
+    b = (int) strtol(endptr + 1, NULL, 10);
 
     operation_t operation = FindOperation(calculator, operator);
     if (operation) {
@@ -114,23 +154,13 @@ int calculator_calculate(calculator_t calculator, const char *expression) {
     return result;
 }
 
-int operation_add(int a, int b) {
-    return a + b;
-}
-int operation_subtract(int a, int b) {
-    return a - b;
-}
-int operation_multiply(int a, int b) {
-    return a * b;
-}
-int operation_divide(int a, int b) {
-    if (b == 0) {
-        printf("Error: División por cero\n");
-        return 0; 
-    }
-    return a / b;
-}
 
+
+/**
+ * @brief Libera la memoria asignada a la calculadora y sus operaciones.
+ *
+ * @param calculator Calculadora a destruir.
+ */
 void calculator_destroy(calculator_t calculator) {
     if (!calculator) return;
 
@@ -144,5 +174,53 @@ void calculator_destroy(calculator_t calculator) {
     free(calculator);
 }
 
+
+/**
+ * @brief Realiza una operación de suma.
+ *
+ * @param a Primer operando.
+ * @param b Segundo operando.
+ * @return Resultado de la suma.
+ */
+int operation_add(int a, int b) {
+    return a + b;
+}
+
+/**
+ * @brief Realiza una operación de resta.
+ *
+ * @param a Primer operando.
+ * @param b Segundo operando.
+ * @return Resultado de la resta.
+ */
+int operation_subtract(int a, int b) {
+    return a - b;
+}
+
+/**
+ * @brief Realiza una operación de la multiplicacion.
+ *
+ * @param a Primer operando.
+ * @param b Segundo operando.
+ * @return Resultado de la multiplicacion.
+ */
+int operation_multiply(int a, int b) {
+    return a * b;
+}
+
+/**
+ * @brief Realiza una operación de la division.
+ *
+ * @param a Primer operando.
+ * @param b Segundo operando.
+ * @return Resultado de la division.
+ */
+int operation_divide(int a, int b) {
+    if (b == 0) {
+        printf("Error: División por cero\n");
+        return 0; 
+    }
+    return a / b;
+}
 
 /* === End of documentation ======================================================================================== */
